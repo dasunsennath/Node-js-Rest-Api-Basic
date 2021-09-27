@@ -19,6 +19,10 @@ const Usershema = new Schema(
     age:{
        type:Date,
        default:Date.now()
+    },
+    admin:
+    { type:Boolean,
+      default:false
     }
 },{timestamps:true});
 

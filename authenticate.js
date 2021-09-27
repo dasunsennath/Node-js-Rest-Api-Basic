@@ -42,6 +42,20 @@ passport.use(new JWTStraregy(option,(payload,done)=>
 
 exports.verify = passport.authenticate('jwt',{session:false});
 
+exports.verifyAdmin = (req,res,next)=>
+{
+    if(req.user.admin)
+    {
+        return next();
+    }
+    else
+    {
+        let Err = new Error('you are not autherized to performe this task!');
+        Err.status = 403;
+        return next(Err);
+    }
+}
+
 // exports.local = passport.use(new loacStratergy(User.authenticate()));
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());

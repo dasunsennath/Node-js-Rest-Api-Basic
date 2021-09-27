@@ -19,7 +19,7 @@ ProductRoure.route('/')
     .catch((err) => next(err));
     // res.end('this the Get Request from : / Product');
 })
-.post(authenticate.verify,(req,res,next)=>
+.post(authenticate.verify,authenticate.verifyAdmin, (req,res,next)=>
 {
    Products.create(req.body)
    .then((product)=>
@@ -32,13 +32,13 @@ ProductRoure.route('/')
 
     // res.end('The input is passed to db  details : '+ req.body.name  +' address : '+ req.body.address);
 })
-.put(authenticate.verify,(req,res,next)=>
+.put(authenticate.verify,authenticate.verifyAdmin,(req,res,next)=>
 {
     res.statusCode=403;
     res.setHeader('Content-Type','text/plain');
     res.end('The PUT method is not supported for : /product');
 })
-.delete(authenticate.verify,(req,res,next)=>
+.delete(authenticate.verify,authenticate.verifyAdmin,(req,res,next)=>
 {
      prodcut.remove({})
      .then((remove)=>
@@ -63,13 +63,13 @@ ProductRoure.route('/:producID')
     },(err)=>next(err))
     .catch((err) => next(err));
 })
-.post(authenticate.verify,(req,res,next)=>
+.post(authenticate.verify,authenticate.verifyAdmin,(req,res,next)=>
 {
     res.statusCode=403;
     res.setHeader('Content-Type','text/plain');
    res.end('The POST method is not allow for /Product/'+req.params.producID);
 })
-.put(authenticate.verify,(req,res,next)=>
+.put(authenticate.verify,authenticate.verifyAdmin,(req,res,next)=>
 {
     Products.findByIdAndUpdate(req.params.producID,{$set:req.body},{new:true}).exec()
     .then((update)=>
@@ -80,7 +80,7 @@ ProductRoure.route('/:producID')
     },(err)=>next(err))
     .catch((err) => next(err));
 })
-.delete(authenticate.verify,(req,res,next)=>
+.delete(authenticate.verify,authenticate.verifyAdmin,(req,res,next)=>
 {
      prodcut.findByIdAndDelete(req.params.producID)
      .then((remove)=>
